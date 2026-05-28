@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Use the CORRECT Railway backend URL
-const API_BASE_URL = 'https://project2-api.up.railway.app';
+const API_BASE_URL = 'project2-api-giu-nexus-deploy.up.railway.app';
 const API_VERSION = '/api/v1';
 
 console.log('🔗 API connected to:', API_BASE_URL);

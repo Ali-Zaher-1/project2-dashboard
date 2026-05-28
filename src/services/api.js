@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Use Railway backend URL directly (no environment variable needed for now)
+// Use the CORRECT Railway backend URL
 const API_BASE_URL = 'https://project2-api.up.railway.app';
 const API_VERSION = '/api/v1';
 
@@ -35,10 +35,10 @@ export const deleteUser = (id) => API.delete(`/users/${id}`);
 
 // Auth
 export const login = async (credentials) => {
-  console.log('📤 Login request to:', `${API_BASE_URL}${API_VERSION}/auth/login`);
+  console.log('📤 Login to:', `${API_BASE_URL}${API_VERSION}/auth/login`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/login`, credentials);
-    console.log('✅ Login response:', response.data);
+    console.log('✅ Login success:', response.data);
     
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);
@@ -52,10 +52,10 @@ export const login = async (credentials) => {
 };
 
 export const register = async (userData) => {
-  console.log('📝 Register request to:', `${API_BASE_URL}${API_VERSION}/auth/register`);
+  console.log('📝 Register to:', `${API_BASE_URL}${API_VERSION}/auth/register`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/register`, userData);
-    console.log('✅ Register response:', response.data);
+    console.log('✅ Register success:', response.data);
     
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);

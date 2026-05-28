@@ -34,7 +34,7 @@ const Chat = ({ currentUser, users, onClose }) => {
   useEffect(() => {
     if (!currentUsername) return;
     
-    const newSocket = io('https://project2-api.up.railway.app', {
+    const newSocket = io('https://project2-api-giu-nexus-deploy.up.railway.app', {
       transports: ['websocket', 'polling'],
       reconnection: true
     });

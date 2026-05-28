@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// Use environment variable or fallback to localhost for development
-// For production on Vercel, use your Railway backend URL
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+// Use Railway backend URL
+const API_BASE_URL = 'https://project2-api.up.railway.app';
 const API_VERSION = '/api/v1';
 
 const API = axios.create({
@@ -13,7 +12,7 @@ const API = axios.create({
   },
 });
 
-// Add token to requests if it exists
+// Add token to requests
 API.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token');
@@ -25,15 +24,6 @@ API.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor for debugging
-API.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    console.error('API Error:', error.response?.status, error.response?.data);
-    return Promise.reject(error);
-  }
-);
-
 // Users
 export const getUsers = (page = 1, limit = 5) => API.get(`/users?page=${page}&limit=${limit}`);
 export const getUserById = (id) => API.get(`/users/${id}`);
@@ -41,13 +31,10 @@ export const createUser = (data) => API.post('/users', data);
 export const updateUser = (id, data) => API.put(`/users/${id}`, data);
 export const deleteUser = (id) => API.delete(`/users/${id}`);
 
-// Auth - Connect to Railway backend
+// Auth
 export const login = async (credentials) => {
-  console.log('Sending login request to:', `${API_BASE_URL}${API_VERSION}/auth/login`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/login`, credentials);
-    console.log('Login response:', response.data);
-    
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);
       localStorage.setItem('project2_user', JSON.stringify(response.data.user));
@@ -60,11 +47,8 @@ export const login = async (credentials) => {
 };
 
 export const register = async (userData) => {
-  console.log('Sending register request to:', `${API_BASE_URL}${API_VERSION}/auth/register`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/register`, userData);
-    console.log('Register response:', response.data);
-    
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);
       localStorage.setItem('project2_user', JSON.stringify(response.data.user));

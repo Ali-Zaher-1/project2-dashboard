@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-// Use Railway backend URL
+// Use Railway backend URL directly (no environment variable needed for now)
 const API_BASE_URL = 'https://project2-api.up.railway.app';
 const API_VERSION = '/api/v1';
+
+console.log('🔗 API connected to:', API_BASE_URL);
 
 const API = axios.create({
   baseURL: `${API_BASE_URL}${API_VERSION}`,
@@ -33,29 +35,35 @@ export const deleteUser = (id) => API.delete(`/users/${id}`);
 
 // Auth
 export const login = async (credentials) => {
+  console.log('📤 Login request to:', `${API_BASE_URL}${API_VERSION}/auth/login`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/login`, credentials);
+    console.log('✅ Login response:', response.data);
+    
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);
       localStorage.setItem('project2_user', JSON.stringify(response.data.user));
     }
     return response;
   } catch (error) {
-    console.error('Login error:', error.response?.data || error.message);
+    console.error('❌ Login error:', error.response?.data || error.message);
     throw error;
   }
 };
 
 export const register = async (userData) => {
+  console.log('📝 Register request to:', `${API_BASE_URL}${API_VERSION}/auth/register`);
   try {
     const response = await axios.post(`${API_BASE_URL}${API_VERSION}/auth/register`, userData);
+    console.log('✅ Register response:', response.data);
+    
     if (response.data.token) {
       localStorage.setItem('auth_token', response.data.token);
       localStorage.setItem('project2_user', JSON.stringify(response.data.user));
     }
     return response;
   } catch (error) {
-    console.error('Register error:', error.response?.data || error.message);
+    console.error('❌ Register error:', error.response?.data || error.message);
     throw error;
   }
 };
